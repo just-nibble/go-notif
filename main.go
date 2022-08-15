@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"golang.design/x/clipboard"
 	"os/exec"
 )
@@ -13,13 +12,20 @@ func main() {
 		panic(err)
 	}
 
-	// ctx, cancel := context.WithTImeout(context.Background(), time.Second*2)
-	// defer cancel()
+	image := clipboard.Watch(context.TODO(), clipboard.FmtImage)
 
-	ch := clipboard.Watch(context.TODO(), clipboard.FmtText)
-	for data := range ch {
-		fmt.Println(string(data))
-		_, err := exec.Command("notify-send", string(data)).Output()
+	go func() {
+		ch := clipboard.Watch(context.TODO(), clipboard.FmtText)
+		for data := range ch {
+			_, err := exec.Command("notify-send", string(data)).Output()
+			if err != nil {
+				panic(err)
+			}
+		}
+	}()
+
+	for _ = range image {
+		_, err := exec.Command("notify-send", string("image was copied")).Output()
 		if err != nil {
 			panic(err)
 		}
