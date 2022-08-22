@@ -100,15 +100,11 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-The following instruction is for arch based linux distros only, other operating systems vary.
-* go
-  ```sh
-  sudo pacman -S go
-  ```
+Only the executable is needed
 
 ### Installation
 
-1. Get a free API Key at [https://github.com/just-nibble/go-notif/releases/download/v1.0.1/go-notif](https://github.com/just-nibble/go-notif/releases/download/v1.0.1/go-notif)
+1. Download the executable at [https://github.com/just-nibble/go-notif/releases/download/v1.0.1/go-notif](https://github.com/just-nibble/go-notif/releases/download/v1.0.1/go-notif)
 
 2. Add downloaded executable to login scripts
 
