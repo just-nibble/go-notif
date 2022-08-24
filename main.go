@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"golang.design/x/clipboard"
 	"os/exec"
 	"sync"
@@ -19,7 +20,7 @@ func main() {
 	go func() {
 		ch := clipboard.Watch(context.TODO(), clipboard.FmtText)
 		for data := range ch {
-			_, err := exec.Command("notify-send", string(data)).Output()
+			_, err := exec.Command("notify-send", string(data), "--app-name", "go-notif").Output()
 			if err != nil {
 				panic(err)
 			}
@@ -27,11 +28,12 @@ func main() {
 	}()
 
 	go func() {
-		image := clipboard.Watch(context.TODO(), clipboard.FmtImage)
-		for _ = range image {
+		ch := clipboard.Watch(context.TODO(), clipboard.FmtImage)
+		for _ = range ch {
 			_, err := exec.Command("notify-send", string("image was copied")).Output()
 			if err != nil {
-				panic(err)
+				fmt.Println(err)
+				// panic(err)
 			}
 		}
 	}()
