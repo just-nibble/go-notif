@@ -104,7 +104,7 @@ Only the executable is needed
 
 ### Installation
 
-1. Download the executable at [https://github.com/just-nibble/go-notif/releases/download/v1.0.1/go-notif](https://github.com/just-nibble/go-notif/releases/latest)
+1. Download the executable at [latest release](https://github.com/just-nibble/go-notif/releases/latest)
 
 2. Add downloaded executable to login scripts
 
