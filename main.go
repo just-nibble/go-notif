@@ -3,14 +3,17 @@ package main
 import (
 	"context"
 	"fmt"
-	"golang.design/x/clipboard"
 	"os/exec"
+	"runtime"
 	"sync"
+
+	"golang.design/x/clipboard"
 )
 
 func main() {
+	runtime.GOMAXPROCS(2)
 	var wg sync.WaitGroup
-	wg.Add(1)
+	wg.Add(2)
 
 	err := clipboard.Init()
 	if err != nil {
@@ -18,6 +21,7 @@ func main() {
 	}
 
 	go func() {
+		defer wg.Done()
 		ch := clipboard.Watch(context.TODO(), clipboard.FmtText)
 		for data := range ch {
 			_, err := exec.Command("notify-send", string(data), "--app-name", "go-notif").Output()
@@ -28,12 +32,12 @@ func main() {
 	}()
 
 	go func() {
+		defer wg.Done()
 		ch := clipboard.Watch(context.TODO(), clipboard.FmtImage)
 		for _ = range ch {
 			_, err := exec.Command("notify-send", string("image was copied")).Output()
 			if err != nil {
-				fmt.Println(err)
-				// panic(err)
+				fmt.Println(fmt.Sprint(err))
 			}
 		}
 	}()
